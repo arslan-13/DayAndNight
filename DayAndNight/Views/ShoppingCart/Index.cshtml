@@ -1,0 +1,63 @@
+﻿@model ShoppingCartViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <div class="row checkoutForm">
+        <h2>Your shopping cart</h2>
+        <h4>Here are the driks in your shopping cart</h4>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Select Amount</th>
+                    <th>Drink</th>
+                    <th class="text-right">Price</th>
+                    <th class="text-right">Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var line in Model.shoppingCart.ShoppingCartItems)
+                {
+                <tr>
+                    <td class="text-center">@line.Amount</td>
+                    <td class="text-left">@line.Drink.Name</td>
+                    <td class="text-right">@line.Drink.Price.ToString("c")</td>
+                    <td class="text-right">@((line.Amount * line.Drink.Price).ToString("c"))</td>
+                    <td class="text-center"><a class="glyphicon gltphicon-remove text-danger remove"
+                                               asp-controller="ShoppingCart"
+                                               asp-action="RemoveFromShoppingCart"
+                                               asp-route-drinkId="@line.Drink.DrinkID">
+                                            </a>
+                    </td>
+                </tr>
+
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right">Total:</td>
+                    <td class="text-right">@Model.ShoppingCartTotal.ToString("c")</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="text-right">
+            <div class="btn-group">
+                <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Check out</a>
+                <a class="btn-group">
+                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Add more Drinks<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown" role="menu">
+                        <li><a asp-controller="Drink" asp-action="List" asp-route-category="Alcholic">Alcholic</a></li>
+                        <li><a asp-controller="Drink" asp-action="List" asp-route-category="Non-Alcholic">Non-Alcholic</a></li>
+                    </ul>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
